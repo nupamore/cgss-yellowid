@@ -5,12 +5,12 @@ var express = require('express'),
 var bodyParser = require('body-parser');
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 var exec = require('child_process').exec;
-
-
+var request = require('request');
+var xmlParser = require('xml-parser');
 
 var Twitter = require('twitter');
 var client = new Twitter({
@@ -22,18 +22,17 @@ var client = new Twitter({
 
 var borderCache = {};
 var preCache = {};
-var BORDER_ID = 3697513573;
-var PRE_ID = 3730738512;
-var BORDER_INTERVAL = 30000;
+var BORDER_INTERVAL = 60000;
 var PRE_INTERVAL = 300000;
 
 var PROB = {
   'SSR': 15,
   'SR': 100,
   'NOW': 250,
-  'SSR_NOW': 270,
-  'SR_NOW': 272,
-  'R_NOW': 271
+  'SSR_NOW': 500
+  //'SSR': 15,
+  //'SR': 100,
+  //'NOW': 250
 }
 var rand1000 = function(){
   return Math.floor(Math.random()*1000);
@@ -42,17 +41,15 @@ var rand1000 = function(){
 
 var playKeyboard = {
   "type" : "buttons",
-  "buttons" : ["10연챠", "다쟈레", "@갤", "현재 컷", "예상 컷", "인벤"]
+  "buttons" : ["10연챠", "다쟈레", "신데마스 랜덤짤", "현재 컷", "예상 컷", "인벤 컷"]
 };
 var eventKeyboard = {
   "type" : "buttons",
-  "buttons" : ["현재 컷", "예상 컷", "인벤", "10연챠", "다쟈레", "@갤"]
+  "buttons" : ["현재 컷", "예상 컷", "인벤 컷", "10연챠", "다쟈레", "신데마스 랜덤짤"]
 };
 
 app.get('/', function (req, res) {
-  exec("./yellowStart.sh", function (error, stdout, stderr) {
-     res.send(stdout);
-  });
+  exec("./yellowStart.sh", function (error, stdout, stderr) { res.send(stdout); });
 });
 
 app.get('/keyboard', function (req, res) {
@@ -61,7 +58,12 @@ app.get('/keyboard', function (req, res) {
 
 
 var getBorder = function(callback){
-  client.get('statuses/user_timeline', {user_id: BORDER_ID, count:5}, function(error, tweets, response){
+  client.get('statuses/user_timeline', {user_id: 3697513573, count:5}, function(error, tweets, response){
+    if(error){
+      console.log(error);
+      if(callback) callback(err);
+      return;
+    }
     // check
     for(var i=0; i<tweets.length; i++){
       borderCache = tweets[i];
@@ -81,7 +83,12 @@ var getBorder = function(callback){
   });
 };
 var getPre = function(callback){
-  client.get('statuses/user_timeline', {user_id: PRE_ID, count:5}, function(error, tweets, response){
+  client.get('statuses/user_timeline', {user_id: 3730738512, count:5}, function(error, tweets, response){
+    if(error){
+      console.log(error);
+      if(callback) callback(err);
+      return;
+    }
     // check
     for(var i=0; i<tweets.length; i++){
       preCache = tweets[i];
@@ -118,13 +125,22 @@ app.post('/message', function (req, res) {
         res.json( json );
       }
       else{
-        getBorder(function(){
-          json.keyboard = eventKeyboard;
-          json.message = {
-            "text": borderCache.text.trim()
-          };
-          log(json);
-          res.json( json );
+        getBorder(function(err){
+          if(err){
+            json.keyboard = eventKeyboard;
+            json.message = {
+              "text": '서버 오류'
+            };
+            res.json( json );
+          }
+          else{
+            json.keyboard = eventKeyboard;
+            json.message = {
+              "text": borderCache.text.trim()
+            };
+            log(json);
+            res.json( json );
+          }
         });
       }
     break;
@@ -139,23 +155,33 @@ app.post('/message', function (req, res) {
         res.json( json );
       }
       else{
-        getPre(function(){
-          json.keyboard = eventKeyboard;
-          json.message = {
-            "text": preCache.text.trim()
-          };
-          log(json);
-          res.json( json );
+        getPre(function(err){
+          if(err){
+            json.keyboard = eventKeyboard;
+            json.message = {
+              "text": '서버 오류'
+            };
+            res.json( json );
+          }
+          else{
+            json.keyboard = eventKeyboard;
+            json.message = {
+              "text": preCache.text.trim()
+            };
+            log(json);
+            res.json( json );
+          }
         });
       }
     break;
 
-    case '인벤':
+    case '인벤 컷':
       json.keyboard = eventKeyboard;
       json.message = {
+        "text": '계산하기 버튼을 누르세요',
         "message_button": {
-          "label": "아이돌마스터 인벤",
-          "url": "http://m.inven.co.kr/imas"
+            "label": "인벤계산기",
+            "url": "http://imas.inven.co.kr/dataninfo/event/point.php?mobile=1"
         }
       };
       log(json);
@@ -205,52 +231,52 @@ app.post('/message', function (req, res) {
       var query = 'SELECT name, grade, img_url'
                 +' FROM idol'
                 +' WHERE grade LIKE ?'
-                +' AND no LIKE ?'
                 +' AND limited = 0'
+                +' AND now = ?'
                 +' ORDER BY rand() limit 1';
       var noSR = true;
       for(var i=0; i<10; i++){
         var rand = rand1000();
         var grade = 'R';
-        var no = '%';
+        var now = 0;
         if( PROB.SSR>rand ){
-          if( PROB.NOW>rand1000() ){
-            no = PROB.SSR_NOW;
+          if( PROB.SSR_NOW>rand1000() ){
+            now = 1;
           }
           grade = 'SSR';
           noSR = false;
         }
         else if( PROB.SR>rand ){
           if( PROB.NOW>rand1000() ){
-            no = PROB.SR_NOW;
+            now = 1;
           }
           grade = 'SR';
           noSR = false;
         }
         else{
           if( PROB.NOW>rand1000() ){
-            no = PROB.R_NOW;
+            now = 1;
           }
           grade = 'R';
         }
         // no SR
         if( i==9 && noSR){
-          no = '%';
+          now = 0;
           if( PROB.SSR>rand ){
-            if( PROB.NOW>rand1000() ){
-              no = PROB.SSR_NOW;
+            if( PROB.SSR_NOW>rand1000() ){
+              now = 1;
             }
             grade = 'SSR';
           }
           else{
             if( PROB.NOW>rand1000() ){
-              no = PROB.SR_NOW;
+              now = 1;
             }
             grade = 'SR';
           }
         }
 
-        connection.query(query, [grade, no], function(err, rows, fields) {
+        connection.query(query, [grade, now], function(err, rows, fields) {
           if(err) console.log(err);
           endQuery(rows[0].name, rows[0].grade, rows[0].img_url);
           num++;
@@ -287,16 +313,45 @@ app.post('/message', function (req, res) {
       });
     break;
 
-    case '@갤':
-      json.keyboard = playKeyboard;
-      json.message = {
-        "message_button": {
-          "label": "아이돌마스터 갤러리",
-          "url": "http://m.dcinside.com/list.php?id=idolmaster"
-        }
+    case '신데마스 랜덤짤':
+      var keyword = 'idolmaster_cinderella_girls';
+      var pid = Math.floor( Math.random()*24187 );
+      var url = 'http://safebooru.org/index.php?page=dapi&s=post&q=index&tags=' + keyword + '&limit=1&pid=' + pid;
+      var post = {
+        file_url: '',
+        width: 100,
+        height: 100
       };
-      log(json);
-      res.json( json );
+
+      request.get(url, function(err, response, body){
+        if (!err && res.statusCode == 200) {
+          post = xmlParser(body).root.children[0].attributes;
+          if( post.width>720 ){
+            post.height = 720 / (post.width / post.height);
+            post.width = 720;
+          }
+          if( post.height>630 ){
+            post.width = 630 / (post.height / post.width);
+            post.height = 630;
+          }
+        }
+        else{
+          console.log(err);
+        }
+
+        json.keyboard = playKeyboard;
+        json.message = {
+          "photo": {
+            "url": post.file_url,
+            "width": Math.floor(post.width),
+            "height": Math.floor(post.height)
+          },
+          "text": post.file_url
+        };
+        console.log(json);
+        res.json( json );
+      });
+
     break;
 
     default:
@@ -311,7 +366,7 @@ app.post('/message', function (req, res) {
 });
 
 var log = function(content){
-  console.log(content);
+  //console.log(content);
 };
 
 
