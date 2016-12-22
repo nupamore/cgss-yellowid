@@ -5,7 +5,7 @@ http://plus.kakao.com/home/@데레스테이벤트
 <br>
 
 | ![screenshot](http://nupamore.github.io/img/cgss_yellowid1.jpg) | ![screenshot](http://nupamore.github.io/img/cgss_yellowid2.jpg) |
-| -- | -- |
+| --- | --- |
 
 <br>
 
