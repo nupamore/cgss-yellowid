@@ -1,0 +1,22 @@
+{
+  "name": "cgss_yellowid",
+  "description": "데레스테 이벤트 봇 카카오톡 옐로아이디",
+  "author": {
+    "name": "nupamore",
+    "email": "nupamore@gmail.com",
+    "url": "http://nupamore.github.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nupamore/cgss_yellowid.git"
+  },
+  "bugs": {
+    "url": "http://github.com/nupamore/cgss_yellowid/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mysql": "^2.12.0",
+    "twitter": "^1.7.0"
+  }
+}
