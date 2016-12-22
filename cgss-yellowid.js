@@ -90,6 +90,7 @@ app.post( '/message', (req, res) => {
         json = url
           ? keyboard.photo( 'gacha', text, {url, width:300, height:193} )
           : keyboard.text( 'border', text )
+        res.json(json)
       })
       .catch( err => console.log(err) )
     break
