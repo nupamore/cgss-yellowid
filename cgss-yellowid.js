@@ -76,7 +76,7 @@ app.post( '/message', (req, res) => {
       gacha(1).then( (text, img) => {
         json = img
           ? keyboard.photo( 'gacha', text, {img, width:300, height:193} )
-          : keyboard.text( 'border', text )
+          : keyboard.text( 'gacha', text )
         res.json(json)
       })
       .catch( err => console.log(err) )
@@ -89,7 +89,7 @@ app.post( '/message', (req, res) => {
       gacha(10).then( (text, url) => {
         json = url
           ? keyboard.photo( 'gacha', text, {url, width:300, height:193} )
-          : keyboard.text( 'border', text )
+          : keyboard.text( 'gacha', text )
         res.json(json)
       })
       .catch( err => console.log(err) )
