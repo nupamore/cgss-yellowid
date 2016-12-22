@@ -74,7 +74,9 @@ app.post( '/message', (req, res) => {
      */
     case FUNC.gacha_single:
       gacha(1).then( (text, img) => {
-        json = keyboard.photo( 'gacha', text, {img, width:300, height:193} )
+        json = img
+          ? keyboard.photo( 'gacha', text, {img, width:300, height:193} )
+          : keyboard.text( 'border', text )
         res.json(json)
       })
       .catch( err => console.log(err) )
@@ -85,8 +87,9 @@ app.post( '/message', (req, res) => {
      */
     case FUNC.gacha_ten:
       gacha(10).then( (text, img) => {
-        json = keyboard.photo( 'gacha', text, {img, width:300, height:193} )
-        res.json(json)
+        json = img
+          ? keyboard.photo( 'gacha', text, {img, width:300, height:193} )
+          : keyboard.text( 'border', text )
       })
       .catch( err => console.log(err) )
     break
@@ -97,6 +100,7 @@ app.post( '/message', (req, res) => {
     case FUNC.pun:
       pun().then( text => {
         json = keyboard.photo( 'play', text, {img:URL.kaede, width:266, height:220} )
+        console.log(URL.kaede);
         res.json(json)
       })
       .catch( err => console.log(err) )
