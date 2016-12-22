@@ -73,9 +73,9 @@ app.post( '/message', (req, res) => {
      * 단챠
      */
     case FUNC.gacha_single:
-      gacha(1).then( (text, img) => {
-        json = img
-          ? keyboard.photo( 'gacha', text, {img, width:300, height:193} )
+      gacha(1).then( ({text, url}) => {
+        json = url
+          ? keyboard.photo( 'gacha', text, {url, width:300, height:193} )
           : keyboard.text( 'gacha', text )
         res.json(json)
       })
@@ -86,7 +86,7 @@ app.post( '/message', (req, res) => {
      * 10연챠
      */
     case FUNC.gacha_ten:
-      gacha(10).then( (text, url) => {
+      gacha(10).then( ({text, url}) => {
         json = url
           ? keyboard.photo( 'gacha', text, {url, width:300, height:193} )
           : keyboard.text( 'gacha', text )
