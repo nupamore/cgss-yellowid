@@ -87,7 +87,7 @@ app.post( '/message', (req, res) => {
      */
     case FUNC.gacha_ten:
       gacha(10).then( (text, url) => {
-        json = img
+        json = url
           ? keyboard.photo( 'gacha', text, {url, width:300, height:193} )
           : keyboard.text( 'border', text )
       })
