@@ -86,9 +86,9 @@ app.post( '/message', (req, res) => {
      * 10연챠
      */
     case FUNC.gacha_ten:
-      gacha(10).then( (text, img) => {
+      gacha(10).then( (text, url) => {
         json = img
-          ? keyboard.photo( 'gacha', text, {img, width:300, height:193} )
+          ? keyboard.photo( 'gacha', text, {url, width:300, height:193} )
           : keyboard.text( 'border', text )
       })
       .catch( err => console.log(err) )
@@ -99,8 +99,7 @@ app.post( '/message', (req, res) => {
      */
     case FUNC.pun:
       pun().then( text => {
-        json = keyboard.photo( 'play', text, {img:URL.kaede, width:266, height:220} )
-        console.log(URL.kaede);
+        json = keyboard.photo( 'play', text, {url:URL.kaede, width:266, height:220} )
         res.json(json)
       })
       .catch( err => console.log(err) )
