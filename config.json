@@ -12,13 +12,17 @@
     "border_inven": "인벤 컷",
     "gacha_single": "단챠",
     "gacha_ten": "10연챠",
-    "pun": "다쟈레"
+    "pun": "다쟈레",
+    "stamina_get": "스태미너 확인",
+    "stamina_set": "스태미너 설정"
   },
   "TEXT": {
     "notice": "?",
     "default": "버튼을 눌러주세요",
     "inven": "계산하기 버튼을 눌러주세요",
-    "error": "서버 오류"
+    "error": "서버 오류",
+    "stamina_error": "설정된 시간이 없습니다",
+    "stamina_help": "'스태미너 레벨' 형식으로 입력해주세요\n(레벨은 생략 가능합니다)\n\n예) 19 100"
   },
   "BORDER": {
     "now": {
