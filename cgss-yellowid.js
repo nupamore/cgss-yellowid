@@ -7,10 +7,13 @@ const keyboard = require('./lib/keyboard.js')
 const border = require('./lib/border.js')
 const gacha = require('./lib/gacha.js')
 const pun = require('./lib/pun.js')
+const stamina = require('./lib/stamina.js')
 
 const express = require('express')
 const bodyParser = require('body-parser')
 const mysql = require('mysql')
+
+const session = {}
 
 
 /**
@@ -26,7 +29,9 @@ app.listen( app.get('port'), () => {
 
 let requestId = 0
 app.use( (req, res, next) => {
-  console.log(`${requestId++} ${req.path} / ${req.body.content||''} / ${ new Date().toString().split(' G')[0] }`)
+  const { path, body:{content} } = req
+  const dateStr = new Date().toString().split(' G')[0]
+  console.log(`${requestId++} ${path} / ${content||''} / ${dateStr}`)
   next()
 })
 
@@ -40,8 +45,10 @@ app.get( '/keyboard', (req, res) => {
 })
 
 app.post( '/message', (req, res) => {
+  const { content, user_key: key } = req.body
   let json = {}
-  switch( req.body.content ){
+
+  switch( content ){
     /**
      * 현재 컷
      */
@@ -107,11 +114,50 @@ app.post( '/message', (req, res) => {
     break
 
     /**
-     * default
+     * 스태미나 확인
+     */
+    case FUNC.stamina_get:
+      stamina.get( key ).then( text => {
+        json = keyboard.text( 'play', text )
+        res.json(json)
+      })
+      .catch( err => {
+        json = keyboard.text( 'play', TEXT.stamina_error )
+        res.json(json)
+      })
+    break
+
+    /**
+     * 스태미나 설정 --> 텍스트 입력
+     */
+    case FUNC.stamina_set:
+      session[key] = 'stamina'
+
+      json = keyboard.input( TEXT.stamina_help )
+      res.json(json)
+    break
+
+
+    /**
+     * 텍스트를 받았을 때
      */
     default:
-      json = keyboard.text( 'border', TEXT.default )
-      res.json(json)
+      // 스태미나 설정
+      if( session[key] == 'stamina' ){
+        stamina.set( key, content ).then( text => {
+          json = keyboard.text( 'play', text )
+          res.json(json)
+        })
+        .catch( err => console.log(err) )
+      }
+
+      // default
+      else{
+        json = keyboard.text( 'border', TEXT.default )
+        res.json(json)
+      }
+
+      delete session[key]
     break
   }
 })
