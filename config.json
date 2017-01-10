@@ -1,12 +1,17 @@
 {
   "PROB_UP": {
     "//": "신규 가챠가 나올 확률",
-    "SSR": 250,
-    "SR": 250,
-    "R": 250
+    "SSR": 400,
+    "SR": 200,
+    "R": 200
+  },
+  "PROB": {
+    "//": "1 = 0.1%",
+    "SSR": 15,
+    "SR": 100
   },
   "FUNC": {
-    "gacha_update": "아라키 센세 통상 ~12/28",
+    "gacha_update": "미리아 통상 ~1/16",
     "border_now": "현재 컷",
     "border_pre": "예상 컷",
     "border_inven": "인벤 컷",
@@ -39,17 +44,12 @@
     "count": 100
   },
   "URL": {
-    "inven": "http://imas.inven.co.kr/dataninfo/event/point.php?mobile=1",
+    "inven": "http://imas.inven.co.kr/dataninfo/event/point.php?mobile=1&mylevel=",
     "kaede": "http://cfile3.uf.tistory.com/image/225E3E3E57308E6B176E88"
   },
   "INTERVAL": {
     "//": "1 = 1ms",
     "now": 60000,
     "predict": 300000
-  },
-  "PROB": {
-    "//": "1 = 0.1%",
-    "SSR": 15,
-    "SR": 100
   }
 }
