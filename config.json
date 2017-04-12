@@ -46,7 +46,12 @@
     "count": 100
   },
   "URL": {
-    "inven": "http://imas.inven.co.kr/dataninfo/event/point.php?mobile=1&mylevel=/#dataFloat",
+    "inven": {
+      "news": "http://www.inven.co.kr/board/powerbbs.php?come_idx=4103",
+      "idol": "http://imas.inven.co.kr/dataninfo/card/sl_list.php",
+      "img_src_style": "http://static.inven.co.kr/image_2011/site_image/game/minidata/54/bg_{id}.jpg",
+      "border": "http://imas.inven.co.kr/dataninfo/event/point.php?mobile=1&mylevel=/#dataFloat"
+    },
     "kaede": "http://cfile3.uf.tistory.com/image/225E3E3E57308E6B176E88"
   },
   "INTERVAL": {

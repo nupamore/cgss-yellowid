@@ -71,7 +71,7 @@ app.post( '/message', (req, res) => {
     case FUNC.border_inven:
       json = keyboard.message_button( 'border', TEXT.inven, {
         label: '인벤계산기',
-        url: URL.inven
+        url: URL.inven.border
       })
       res.json(json)
     break
