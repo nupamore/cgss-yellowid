@@ -13,7 +13,7 @@
     "SR": 100
   },
   "FUNC": {
-    "gacha_update": "신데페스 ~3/31",
+    "gacha_update": "유키미 통상 ~4/14",
     "border_now": "현재 컷",
     "border_pre": "예상 컷",
     "border_inven": "인벤 컷",
@@ -27,7 +27,7 @@
     "notice": "?",
     "default": "버튼을 눌러주세요",
     "inven": "링크 버튼을 눌러주세요",
-    "error": "서버 오류",
+    "error": "데이터가 없습니다",
     "stamina_error": "설정된 시간이 없습니다",
     "stamina_help": "'스태미너 레벨' 형식으로 입력해주세요\n(레벨은 생략 가능합니다)\n\n예) 19 100"
   },
