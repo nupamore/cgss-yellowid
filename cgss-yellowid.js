@@ -88,7 +88,11 @@ app.post( '/message', (req, res) => {
           : keyboard.text( 'gacha', text )
         res.json(json)
       })
-      .catch( err => console.log(err) )
+      .catch(err => {
+        json = keyboard.text( 'gacha', TEXT.error )
+        res.json(json)
+        console.log(err)
+      })
     break
 
     /**
@@ -101,7 +105,11 @@ app.post( '/message', (req, res) => {
           : keyboard.text( 'gacha', text )
         res.json(json)
       })
-      .catch( err => console.log(err) )
+      .catch(err => {
+        json = keyboard.text( 'gacha', TEXT.error )
+        res.json(json)
+        console.log(err)
+      })
     break
 
     /**

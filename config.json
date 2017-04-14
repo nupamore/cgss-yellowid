@@ -1,5 +1,5 @@
 {
-  "FES": true,
+  "FES": false,
   "PROB_UP": {
     "//": "신규 가챠가 나올 확률",
     "SSR": 200,
