@@ -3,12 +3,13 @@ const fs = require('fs')
 const KEY = JSON.parse( fs.readFileSync(`${__dirname}/secret/key.json`) )
 const { FUNC, TEXT, URL } = JSON.parse( fs.readFileSync(`${__dirname}/config.json`) )
 
-const keyboard = require('./lib/keyboard.js')
-const border = require('./lib/border.js')
-const gacha = require('./lib/gacha.js')
-const pun = require('./lib/pun.js')
-const stamina = require('./lib/stamina.js')
-const parser = require('./lib/parser.js')
+const keyboard = require('./lib/keyboard')
+const border = require('./lib/border')
+const gacha = require('./lib/gacha')
+const pun = require('./lib/pun')
+const stamina = require('./lib/stamina')
+const parser = require('./lib/parser')
+const worker = require('./lib/worker')(border, keyboard)
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -36,23 +37,6 @@ app.use( (req, res, next) => {
   next()
 })
 
-
-/**
- * 신규 아이돌 가져오기
- */
-function detectNewIdols() {
-  parser.gachaParse()
-  .then(({idols, ssrNames, endDate}) => {
-    const ssr = ssrNames.reduce((p, n) => `${p}, ${n}`)
-    const str = `${ssr} 통상 ${endDate}`
-    keyboard.now = str
-    // parser.idolParse(idols)
-
-    console.log(`현재 확률업: ${idols}`)
-    console.log(`알림 텍스트: ${str}`)
-  })
-}
-detectNewIdols()
 
 /**
  * router

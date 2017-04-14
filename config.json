@@ -57,6 +57,7 @@
   "INTERVAL": {
     "//": "1 = 1ms",
     "now": 60000,
-    "predict": 300000
+    "predict": 300000,
+    "parse": 300000
   }
 }
