@@ -9,7 +9,7 @@
   },
   "PROB": {
     "//": "1 = 0.1%",
-    "SSR": 30,
+    "SSR": 15,
     "SR": 100
   },
   "FUNC": {
@@ -17,8 +17,8 @@
     "border_now": "현재 컷",
     "border_pre": "예상 컷",
     "border_inven": "인벤 컷",
-    "gacha_single": "단챠 (SSR 2배)",
-    "gacha_ten": "10연챠 (SSR 2배)",
+    "gacha_single": "단챠",
+    "gacha_ten": "10연챠",
     "pun": "다쟈레",
     "stamina_get": "스태미너 확인",
     "stamina_set": "스태미너 설정"
