@@ -1,5 +1,5 @@
 {
-  "FES": true,
+  "FES": false,
   "PROB_UP": {
     "//": "신규 가챠가 나올 확률",
     "SSR": 400,
@@ -13,7 +13,7 @@
     "SR": 120
   },
   "FUNC": {
-    "gacha_update": "신데페스 (SSR확률 6%)",
+    "gacha_update": "확률업 아이돌",
     "border_now": "현재 컷",
     "border_pre": "예상 컷",
     "border_inven": "인벤 컷",
