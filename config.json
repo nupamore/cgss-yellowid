@@ -1,11 +1,8 @@
 {
   "PARSER": {
-    "MANUAL_IDOLS": [
-      "[축복의 눈빛] 클라리스 SSR",
-      "[성스러운 소녀] 모치즈키 히지리"
-    ],
-    "MANUAL_TIME": "12월 27일 15:00",
-    "MANUAL_COMMENT": "통상"
+    "MANUAL_IDOLS": [],
+    "MANUAL_TIME": "",
+    "MANUAL_COMMENT": ""
   },
   "FES": false,
   "PROB_UP": {
