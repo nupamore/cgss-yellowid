@@ -1,6 +1,9 @@
 {
   "PARSER": {
-    "MANUAL_IDOLS": [],
+    "MANUAL_IDOLS": [
+      "[신춘의 채색] 미무라 카나코 SSR",
+      "[복을 부르는 무희] 타카후지 카코 SSR"
+    ],
     "MANUAL_TIME": "",
     "MANUAL_COMMENT": ""
   },
